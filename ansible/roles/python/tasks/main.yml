@@ -1,0 +1,24 @@
+---
+- name: install build python package
+  yum: name={{item}} state=installed
+  with_items:
+  - libselinux-python
+
+- name: install pyenv
+  become: no
+  args:
+    ## guard for only once.
+    creates: ~/.pyenv
+  shell: |
+    git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+    ## add pyenv env
+    (
+        echo 'export PYENV_ROOT=~/.pyenv'
+        echo 'export PATH=$PYENV_ROOT/bin:$PATH'
+        echo 'eval "$(pyenv init -)"'
+    ) >> ~/.bashrc
+    source ~/.bashrc
+    # install python
+    pyenv install {{python.version}}
+    pyenv rehash
+    pyenv global {{python.version}}

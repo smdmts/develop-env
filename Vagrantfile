@@ -1,16 +1,20 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/7"
+  config.vm.network "private_network", ip: "192.168.90.10"
 
-Vagrant.configure(2) do |config|
-  config.vm.box = "dev"
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = false
+    vb.customize ['modifyvm', :id, '--memory', '4096']
+    vb.customize ["modifyvm", :id, "--cpus", "4"]
+    vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+  end
 
-  config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box"
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "ansible/playbook.yml"
+    ansible.sudo = true
+  end
 
-  config.vm.network :private_network, ip: "192.168.33.30"
-  config.vm.network "forwarded_port", guest: 22, host: 2210
-  config.vm.hostname = "dev"
-
-  #config.berkshelf.enabled = true
-  config.omnibus.chef_version = :latest
-
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo systemctl restart network.service
+  SHELL
 end

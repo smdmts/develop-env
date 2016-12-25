@@ -1,0 +1,43 @@
+---
+- name: wget fish repo
+  shell: |
+   cd /etc/yum.repos.d/
+   wget http://download.opensuse.org/repositories/shells:fish:release:2/CentOS_7/shells:fish:release:2.repo
+
+- name: install fish
+  yum: pkg={{ item }} state=installed
+  with_items:
+     - fish
+
+- name: Ensure config.fish dir exists
+  become: no
+  file: path=~/.config/fish/ state=directory
+
+- name: copy config.fish
+  become: no
+  copy: src=config.fish dest=~/.config/fish/config.fish
+
+- name: copy oh-my-fish install.sh
+  copy: src=oh-my-fish.sh dest=/tmp/oh-my-fish.sh mode=0755
+
+- name: install oh-my-fish
+  become: no
+  ignore_errors: true
+  async: 60
+  poll: 60
+  shell: /tmp/oh-my-fish.sh
+
+- name: Change default shell
+  user: name={{shell.user}} shell={{shell.fish}}
+
+- name: install omf plugins peco
+  become: no
+  shell: |
+    fish -c "omf install peco"
+
+- name: install z-fish
+  become: no
+  shell: |
+    git clone https://github.com/sjl/z-fish.git /tmp/z-fish
+    mkdir ~/.config/fish/functions/
+    cp /tmp/z-fish/z.fish ~/.config/fish/functions/

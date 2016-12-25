@@ -1,0 +1,10 @@
+---
+- name: install epel-release
+  yum: pkg={{ item }} state=installed
+  with_items:
+     - epel-release
+
+- name: install nodejs
+  yum: pkg={{ item }} state=installed
+  with_items:
+     - nodejs

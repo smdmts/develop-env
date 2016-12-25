@@ -1,0 +1,46 @@
+- name: install tools
+  yum: pkg={{ item }} state=installed
+  with_items:
+     - jq
+     - telnet
+     - ack
+     - tcpdump
+     - iperf
+     - tmux
+
+- name: install axel
+  yum: name=http://dl.fedoraproject.org/pub/epel/7/x86_64/a/axel-2.4-9.el7.x86_64.rpm state=present
+
+- name: install q
+  yum: name=https://github.com/harelba/packages-for-q/raw/master/rpms/q-text-as-data-1.5.0-1.noarch.rpm state=present
+
+# aws-tooks
+- name: install aws tools
+  become: no
+  pip: name={{ item }}
+  with_items:
+    - awscli
+    - aws-shell
+
+# mysql
+- name: add mysql repo
+  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm state=present
+
+- name: install mysql-community-server
+  yum: name=mysql-community-server state=installed
+
+# peco
+- name: copy peco install.sh
+  copy: src=peco.sh dest=/tmp/peco.sh mode=0755
+
+- name: install peco
+  become: yes 
+  shell: sh /tmp/peco.sh
+
+# z
+- name: install z command
+  shell: |
+    git clone https://github.com/rupa/z
+    mv z/z.sh /usr/local/bin/z
+    chmod 755 /usr/local/bin/z
+    rm -rf z

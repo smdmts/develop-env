@@ -1,0 +1,34 @@
+---
+## shell+default_shell:
+shell:
+  user: 'vagrant'
+  fish: '/usr/bin/fish'
+
+## git
+git_install_from_source: false
+git_install_path: "/usr"
+git_version: "2.1.0"
+
+## Ruby
+ruby:
+  version: 2.1.6
+
+## Python
+python:
+  version: 3.6.0
+
+## Java
+java_version: 8
+java_subversion: 102
+java_download_path: /tmp
+java_download_from_oracle: true
+java_remove_download: true
+java_set_javahome: false
+java_install_jce: false
+
+## aws-cli
+aws_cli_profile: "default"
+aws_cli_format: "json"
+aws_cli_region: "ap-northeast-1"
+aws_cli_access_key: "dummy"
+aws_cli_secret_key: "dummy"

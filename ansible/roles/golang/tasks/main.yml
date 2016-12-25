@@ -1,0 +1,36 @@
+- stat: path=/usr/local/go
+  register: godir
+
+- stat: path=~/.goenv
+  register: goenvdir
+
+- name: get golang
+  get_url: url="https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz" dest="/tmp/golang1.5.tar.gz"
+  when: not godir.stat.exists
+
+- name: tar golang
+  unarchive: src=/tmp/golang1.5.tar.gz dest=/tmp copy=no
+  when: not godir.stat.exists
+
+- name: install golang
+  shell: mv /tmp/go /usr/local/go-1.5; ln -s /usr/local/go-1.5 /usr/local/go; echo 'export PATH=$PATH:/usr/local/go/bin' > /etc/profile.d/go.sh
+  when: not godir.stat.exists
+
+- name: install goenv
+  become: no
+  args:
+    ## guard for only once.
+    creates: ~/.goenv
+  shell: |
+    git clone https://github.com/wfarr/goenv.git ~/.goenv
+  when: not goenvdir.stat.exists
+
+- name: copy global profile for goenv
+  copy: src=goenv.sh dest=/etc/profile.d/goenv.sh
+
+- name: check go modules status
+  become: no
+  command: go get {{ item }}
+  ignore_errors: true
+  with_items:
+    - github.com/motemen/ghq

@@ -1,4 +1,5 @@
-cookbooks/**/*
 .DS_Store
-Berksfile.lock
-.vagrant
+.vagrant/*
+.idea/*
+audit/reports/*
+ansible/playbook.retry

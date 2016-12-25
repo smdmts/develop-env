@@ -1,0 +1,67 @@
+# file: roles/init/tasks/main.yml
+---
+- name: Set up firewall
+  shell: systemctl enable firewalld
+
+- name: Start the firewall
+  shell: systemctl start firewalld
+
+- name: add docker template
+  template: src=docker.tpl dest=/etc/yum.repos.d/docker.repo
+
+- name: Update Yum
+  yum: name=* state=latest
+
+- name: Install nano, etc
+  yum: pkg={{ item }} state=installed
+  with_items:
+     - git
+     - nano
+     - curl
+     - gcc
+     - kernel-devel
+     - wget
+     - vim
+     - man
+     - unzip
+     - docker-engine
+     - gcc
+     - gcc-c++
+     - rsync
+     - tar
+     - make
+     - libffi-devel
+     - zlib-devel
+     - openssl-devel
+     - patch
+     - readline-devel
+     - openssl-devel
+     - libxml2-devel
+     - libxslt-devel
+     - bzip2
+     - bzip2-devel
+     - readline-devel
+     - sqlite
+     - sqlite-devel
+     - openssl-devel
+     - curl-devel
+     - expat-devel
+     - gettext-devel
+     - perl-ExtUtils-MakeMaker
+     - wget
+     - expect
+
+- name: compile and install git new version
+  shell: |
+    cd /usr/local/src/
+    curl -o git-2.9.0.tar.gz  https://www.kernel.org/pub/software/scm/git/git-2.9.0.tar.gz
+    tar vfx git-2.9.0.tar.gz
+    cd git-2.9.0
+    make prefix=/usr/local all
+    make prefix=/usr/local install
+
+- name: Start the docker service
+  shell: systemctl enable docker.service
+
+- name: Start the docker daemon
+  shell: systemctl start docker

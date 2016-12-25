@@ -1,0 +1,8 @@
+---
+- name: add sbt rpm
+  get_url: url="https://bintray.com/sbt/rpm/rpm" dest="/etc/yum.repos.d/bintray-sbt-rpm.repo"
+
+- name: install sbt
+  yum: pkg={{ item }} state=installed
+  with_items:
+     - sbt

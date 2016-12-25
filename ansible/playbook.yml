@@ -1,0 +1,16 @@
+# file: ansible/playbook.yml
+---
+- hosts: all
+  user: vagrant
+  vars_files:
+    - vars/development.yml
+  roles:
+    - init
+    - williamyeh.oracle-java
+    - scala
+    - ruby
+    - python
+    - golang
+    - node
+    - servertool
+    - fish
