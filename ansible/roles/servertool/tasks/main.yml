@@ -34,13 +34,12 @@
   copy: src=peco.sh dest=/tmp/peco.sh mode=0755
 
 - name: install peco
-  become: yes 
+  become: yes
   shell: sh /tmp/peco.sh
 
 # z
 - name: install z command
   shell: |
-    git clone https://github.com/rupa/z
-    mv z/z.sh /usr/local/bin/z
-    chmod 755 /usr/local/bin/z
-    rm -rf z
+    git clone https://github.com/rupa/z /tmp/z
+    mv /tmp/z/z.sh /usr/local/bin/z.sh
+    chmod 755 /usr/local/bin/z.sh

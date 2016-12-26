@@ -16,6 +16,7 @@
         echo 'export PYENV_ROOT=~/.pyenv'
         echo 'export PATH=$PYENV_ROOT/bin:$PATH'
         echo 'eval "$(pyenv init -)"'
+        echo ''
     ) >> ~/.bashrc
     source ~/.bashrc
     # install python
