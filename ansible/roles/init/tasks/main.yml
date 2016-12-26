@@ -15,7 +15,6 @@
 - name: Install nano, etc
   yum: pkg={{ item }} state=installed
   with_items:
-     - git
      - nano
      - curl
      - gcc
@@ -51,6 +50,11 @@
      - wget
      - expect
 
+- name: remove git, etc
+  yum: pkg={{ item }} state=removed
+  with_items:
+     - git
+
 - name: compile and install git new version
   shell: |
     cd /usr/local/src/
@@ -59,7 +63,8 @@
     cd git-2.9.0
     make prefix=/usr/local all
     make prefix=/usr/local install
-
+    ln -s /usr/local/bin/git /usr/bin/git
+    
 - name: Start the docker service
   shell: systemctl enable docker.service
 

@@ -41,5 +41,5 @@
     git clone https://github.com/sjl/z-fish.git /tmp/z-fish
     mkdir ~/.config/fish/functions/
     cp /tmp/z-fish/z.fish ~/.config/fish/functions/
-    cd ~/ 
-    z --add "$PWD"
+    cd ~/
+    fish -c "z --add '$PWD'"

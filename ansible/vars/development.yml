@@ -26,6 +26,10 @@ java_remove_download: true
 java_set_javahome: false
 java_install_jce: false
 
+## Golang
+golang:
+  version: 1.4
+
 ## aws-cli
 aws_cli_profile: "default"
 aws_cli_format: "json"

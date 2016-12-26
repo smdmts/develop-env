@@ -43,3 +43,9 @@
     git clone https://github.com/rupa/z /tmp/z
     mv /tmp/z/z.sh /usr/local/bin/z.sh
     chmod 755 /usr/local/bin/z.sh
+
+# ghq
+- name: install ghq
+  become: no
+  shell: |
+    go get github.com/motemen/ghq
