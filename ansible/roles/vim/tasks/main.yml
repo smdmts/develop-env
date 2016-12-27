@@ -1,0 +1,28 @@
+---
+- name: uninstall current vim
+  yum: name={{item}} state=removed
+  with_items:
+  - vim
+
+- name: install master vim
+  shell: |
+    cd /usr/local/src
+    wget https://github.com/vim/vim/archive/master.zip
+    unzip master.zip
+    cd vim-master
+    cd src/
+    ./configure
+    make
+    make install
+
+- name: copy vim definitions
+  become: no
+  copy: src={{ item }}  dest=~/
+  with_items:
+    - .dein.toml
+    - .vimrc
+
+- name: install dein.vim
+  become: no
+  shell: |
+    git clone https://github.com/Shougo/dein.vim.git /home/vagrant/cache/dein/repos/github.com/Shougo/dein.vim

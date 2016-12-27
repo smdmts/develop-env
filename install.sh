@@ -1,5 +1,3 @@
 #!/bin/sh
-ansible-galaxy install williamyeh.oracle-javai
-ansible-galaxy install dotstrap.fish
-ansible-galaxy install geerlingguy.git
+ansible-galaxy install williamyeh.oracle-java
 vagrant up

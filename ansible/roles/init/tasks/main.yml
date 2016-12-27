@@ -64,7 +64,13 @@
     make prefix=/usr/local all
     make prefix=/usr/local install
     ln -s /usr/local/bin/git /usr/bin/git
-    
+
+- name: create docker group
+  group: name=docker 
+
+- name: add user to docker group
+  command: gpasswd -a {{ shell.user }} docker
+
 - name: Start the docker service
   shell: systemctl enable docker.service
 
