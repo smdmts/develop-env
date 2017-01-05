@@ -16,6 +16,9 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "../", "/home/vagrant/git",
     create: true, owner: "vagrant", group: "vagrant"
 
+  config.vm.synced_folder "./Dropbox", "/home/vagrant/Dropbox",
+    create: true, owner: "vagrant", group: "vagrant"
+
   config.vm.provision "shell", inline: <<-SHELL
     sudo systemctl restart network.service
   SHELL

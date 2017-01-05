@@ -49,3 +49,16 @@
   become: no
   shell: |
     go get github.com/motemen/ghq
+
+# dropbox
+# @see http://qiita.com/yudoufu/items/163f9c9b6b9fa2f4bf9e
+- name: install dropbox daemon
+  become: no
+  shell: |
+    cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+
+- name: install dropbox command
+  get_url:
+    url: https://www.dropbox.com/download?dl=packages/dropbox.py
+    dest: /usr/local/bin/dropbox.py
+    mode: 0755

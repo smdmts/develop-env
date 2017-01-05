@@ -47,6 +47,7 @@ endif
 
 
 "Start option setting
+set ambiwidth=double
 set noswapfile
 set ruler
 set cmdheight=2
